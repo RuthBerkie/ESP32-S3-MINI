@@ -35,7 +35,7 @@ The filtered 5V power now reaches U1 (the LM1117-3.3 Linear Regulator).
     2. Down-Step Regulation: U1 takes the 5V and steps it down to a stable +3.3V, burning off the extra 1.7V as heat. This 3.3V line is the primary power source for all computer chips on the board.
     3. Transient Buffering: C2 (10µF) acts as an output reservoir. When downstream chips suddenly pull large currents, C2 dumps its energy into the rail instantly to keep the voltage from dropping.
     4. Visual Diagnostics: The moment the 3.3V rail stabilizes, current travels through R6 to light up D2 (the Green LED), providing a visual confirmation that the board's power system is operating correctly.
-![ESP32-S3-MINI_sch](pic1andpic4.jpg)
+![ESP32-S3-MINI_sch](pic14.jpg)
 
 Step 3: Hardware Boot, Clock Timing, and Brain Management
 With 3.3V spreading across the inner power planes of the board, the U4 (ESP32-S3-MINI-1) module wakes up.
@@ -54,7 +54,7 @@ Once the ESP32-S3 code begins running, it initializes its internal I2C communica
     1. Line Stabilization: R1 (4.7kΩ) and R2 (4.7kΩ) act as active pull-ups, holding the SDA (Serial Data) and SCL (Serial Clock) lines at 3.3V so they don't drift into electrical noise.
     2. Onboard Telemetry: The ESP32 acts as the master, pulsing the SCL line to establish a clock rhythm. It addresses U2 (the HDC3022 sensor) using its hardwired I2C address (0x44, established by grounding its address selection pins). The sensor reads local relative humidity and temperature, sending the digital results back along the SDA line. C4 (100nF) ensures that high-precision analog measurements inside U2 are shielded from digital board noise.
     3. Modular Expansion: Simultaneously, this exact same I2C bus routes out to J2 (the Qwiic connector), allowing you to daisy-chain external sensors into the exact same communication pipeline without soldering.
-![ESP32-S3-MINI_sch](pic5andpic6.jpg)
+![ESP32-S3-MINI_sch](pic56.jpg)
 
 Step 5: User Feedback and Industrial Peripherals (Pictures 5 & 6)
 With environmental data safely inside the processor, the ESP32 executes its final tasks: outputting information to the user and interacting with external hardware expansion modules.
