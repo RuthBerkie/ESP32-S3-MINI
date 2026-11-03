@@ -16,6 +16,7 @@ This is a comprehensive, sequential summary of how all 6 functional blocks conne
                           ├───> [6. Peripheral Interaction Arrays] ──> Driving Common-Anode RGB LED Matrix
                           │
                           └───> [7. High-Speed External Expansion] ──> Driving Industrial 10-Pin SPI/IRQ Interface
+![ESP32-S3-MINI_sch](picture3.jpg)
 
 Step 1: Power Entry, Handshaking, and Frontline Protection(Picture 3) 
 The entire operational sequence begins at J1 (the USB-C port).
