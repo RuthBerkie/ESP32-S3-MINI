@@ -18,7 +18,7 @@ This is a comprehensive, sequential summary of how all 6 functional blocks conne
                           └───> [7. High-Speed External Expansion] ──> Driving Industrial 10-Pin SPI/IRQ Interface
 ![ESP32-S3-MINI_sch](picture3.jpg)
 
-Step 1: Power Entry, Handshaking, and Frontline Protection(Picture 3) 
+Step 1: Power Entry, Handshaking, and Frontline Protection 
 The entire operational sequence begins at J1 (the USB-C port).
 
     1. The Power Handshake: When a modern USB-C to USB-C cable is used, the host charger inspects the configuration channel pins (CC1/CC2). Because the 5.1 kΩ pull-down resistors is placed (R7/R8) on these lines, the charger identifies the board as a safe power sink and turns on its 5V rail.
@@ -26,6 +26,7 @@ The entire operational sequence begins at J1 (the USB-C port).
     3. Overcurrent Intercept: The raw 5V power travels through F1 (the 1A Polyfuse). If a downstream component is shorted, this fuse heats up and chokes the current to protect your computer's USB port.
     4. Noise Choking: The electricity then passes through FB1 (the Ferrite Bead), which blocks high-frequency electronic ripple from the laptop's power adapter, providing clean, smooth 5V power to the next stage.
     5. Reverse Voltage Isolation: Finally, D3 (the Schottky Diode) acts as a one-way check valve, letting this clean 5V travel onward but preventing any external programmer power from leaking backward into your computer.
+![ESP32-S3-MINI_sch](pic5.jpg)
 
 Step 2: Power Conditioning and Voltage Regulation(Picture 5) 
 The filtered 5V power now reaches U1 (the LM1117-3.3 Linear Regulator).
@@ -34,8 +35,9 @@ The filtered 5V power now reaches U1 (the LM1117-3.3 Linear Regulator).
     2. Down-Step Regulation: U1 takes the 5V and steps it down to a stable +3.3V, burning off the extra 1.7V as heat. This 3.3V line is the primary power source for all computer chips on the board.
     3. Transient Buffering: C2 (10µF) acts as an output reservoir. When downstream chips suddenly pull large currents, C2 dumps its energy into the rail instantly to keep the voltage from dropping.
     4. Visual Diagnostics: The moment the 3.3V rail stabilizes, current travels through R6 to light up D2 (the Green LED), providing a visual confirmation that the board's power system is operating correctly.
+![ESP32-S3-MINI_sch](pic1andpic4.jpg)
 
-Step 3: Hardware Boot, Clock Timing, and Brain Management (Pictures 1 & 4)
+Step 3: Hardware Boot, Clock Timing, and Brain Management
 With 3.3V spreading across the inner power planes of the board, the U4 (ESP32-S3-MINI-1) module wakes up.
 
     1. The Startup Delay: To prevent the ESP32 from turning on during mid-voltage fluctuations, R9 (10kΩ) and C5 (1µF) form an RC delay network. They force the EN (Reset) pin to stay low for exactly 10 milliseconds, holding the processor core in a reset state until the 3.3V rail is entirely stable.
@@ -44,6 +46,7 @@ With 3.3V spreading across the inner power planes of the board, the U4 (ESP32-S3
 	• Flashing Mode: If you hold SW3 down while tapping SW2 (RESET), GPIO0 drops to 0V (Ground). The chip detects this and switches into its download mode, allowing a computer connected via the J4 Programming Header to upload a new script over the ESP_TXD and ESP_RXD serial lines.
     3. Noise Stability: Local 10µF (C6) and 100nF (C7) decoupling capacitors sit right at the ESP32's power pins, acting as high-frequency filters to absorb voltage fluctuations caused by the processor's internal transistors.
     4. Boot Rule Adherence: R11 (the external 10kΩ pull-up) keeps GPIO3 locked safely at 3.3V, satisfying the Espressif datasheet note to prevent a floating state from causing unpredictable boot failures.
+![ESP32-S3-MINI_sch](pic7.jpg)
 
 Step 4: Environmental Data Collection via the Telemetry Bus (Picture 7)
 Once the ESP32-S3 code begins running, it initializes its internal I2C communication peripheral mapped to pins 12 and 13.
@@ -51,6 +54,7 @@ Once the ESP32-S3 code begins running, it initializes its internal I2C communica
     1. Line Stabilization: R1 (4.7kΩ) and R2 (4.7kΩ) act as active pull-ups, holding the SDA (Serial Data) and SCL (Serial Clock) lines at 3.3V so they don't drift into electrical noise.
     2. Onboard Telemetry: The ESP32 acts as the master, pulsing the SCL line to establish a clock rhythm. It addresses U2 (the HDC3022 sensor) using its hardwired I2C address (0x44, established by grounding its address selection pins). The sensor reads local relative humidity and temperature, sending the digital results back along the SDA line. C4 (100nF) ensures that high-precision analog measurements inside U2 are shielded from digital board noise.
     3. Modular Expansion: Simultaneously, this exact same I2C bus routes out to J2 (the Qwiic connector), allowing you to daisy-chain external sensors into the exact same communication pipeline without soldering.
+![ESP32-S3-MINI_sch](pic5andpic6.jpg)
 
 Step 5: User Feedback and Industrial Peripherals (Pictures 5 & 6)
 With environmental data safely inside the processor, the ESP32 executes its final tasks: outputting information to the user and interacting with external hardware expansion modules.
