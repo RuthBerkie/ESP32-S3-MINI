@@ -64,7 +64,7 @@ With environmental data safely inside the processor, the ESP32 executes its fina
     3. High-Speed Industrial Output (Picture 6): For advanced hardware configurations, the ESP32 communicates with high-density components (like an external display or an SD storage array) broken out on J3 (the 10-pin expansion header). It pushes high-speed data synchronously over the MOSI, MISO, and CLK lines, controls device activation via CS, resets external modules via the RESET pin, and catches real-world hardware alerts instantly via the dedicated IRQ (Interrupt Request) input pin.
 
 	  
-![ESP32-S3-MINI_sch](Board-Design.jpg)
+![ESP32-S3-MINI_sch](BoardDesign.jpg)
 
 The 4-Layer PCB Stackup
 
