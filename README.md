@@ -1,3 +1,5 @@
+# ESP32_S3_MINI
+
 ![ESP32-S3-MINI_sch](Schematic.jpg)
 
 The Complete End-to-End System Rationale
